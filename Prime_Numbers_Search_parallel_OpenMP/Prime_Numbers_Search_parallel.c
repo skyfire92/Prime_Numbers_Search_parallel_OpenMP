@@ -4,15 +4,15 @@
 #include <time.h>
 #include <omp.h>
 
+/* Function divides given interval into number_of_threads intervals and prepares it for search algorithm*/
+void PrepareAndSearchInterval(int number_of_threads, int interval_begin, int interval_end);		//arguments: number of threads, start and end of interval
 /* Function returns number of prime numbers in given interval performing max sqrt(tested_number) divisions in each iteration*/
-int PrimeNumbersSearchAlgorithm(int begin, int end);							//arguments: start and end of interval
-/* Function returns number of prime numbers in given interval performing max sqrt(tested_number) divisions in each iteration*/
-void PrepareAndSearchInterval(int number_of_threads, int interval_begin, int interval_end);	//liczba watkow, poczatek i koniec przedzialu jako argumenty
+int PrimeNumbersSearchAlgorithm(int begin, int end);											//arguments: start and end of interval
 
 int main(int argc, char *argv[])
 {
 	int interval_begin, interval_end, number_of_threads; 	//variables storing input from command line
-	
+
 	while (1)
 	{
 		if (argc == 4)
@@ -98,7 +98,7 @@ void PrepareAndSearchInterval(int number_of_threads, int interval_begin, int int
 	omp_set_num_threads(number_of_threads);											//setting desired number of threads
 	int interval_length = (interval_end - interval_begin) / number_of_threads;		//setting interval length based on desired number of threads
 
-	//BEGINNING OF SETTING INTERVALS BOUNDARIES
+																					//BEGINNING OF SETTING INTERVALS BOUNDARIES
 	interval_starts[0] = interval_begin;
 	interval_ends[0] = interval_begin + interval_length;
 
@@ -120,7 +120,7 @@ void PrepareAndSearchInterval(int number_of_threads, int interval_begin, int int
 
 	double start, end; //variables for measuring time
 
-	//PARALLEL SECTION
+					   //PARALLEL SECTION
 	int i = 0;
 #pragma omp parallel for
 	for (i = 0; i < number_of_threads; i++)
